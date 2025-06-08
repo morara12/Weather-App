@@ -1,0 +1,42 @@
+body{
+  background-color: #EAF8FA;
+  font-family: "Cormorant", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+    margin: 0;
+}
+
+.name{
+  font-size: 40px;
+}
+
+header{
+		display: flex;
+	align-items: center;
+  justify-content: space-around;
+
+}
+
+nav ul li{
+  display: inline-block;
+  margin: 0 20px;
+  margin-right: 10px;
+}
+.b-tab {
+  padding: 20px;
+  border: 1px solid #000;
+  display: none;
+}
+
+.b-tab.active {
+  display: block;
+}
+
+.b-nav-tab {
+  display: inline-block;
+  padding: 20px;
+}
+
+.b-nav-tab.active {
+  color: #ff4200;
+}
