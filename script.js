@@ -11,7 +11,7 @@ btn.addEventListener("click", () => getCity());
 async function getResponse(){
   const myHeaders = new Headers();
 
-  myHeaders.append("Authorization", "Bearer 01fe956db8d53db098f09b09ea97b199351cdfa4");
+  myHeaders.append("Authorization", "Bearer ");
 
   const requestOptions = {
     method: "GET",
@@ -24,7 +24,7 @@ async function getResponse(){
 async function getCity(){
   try{
     // const requestOptions = await getResponse();
-    const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${textarea.value}&limit=2&appid=b4f5834a6e99afab79449a758d090683`);
+    const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${textarea.value}&limit=2&appid=`);
     const item = await response.json();
     console.log(item)
   } catch (error) {
