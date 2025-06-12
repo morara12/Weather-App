@@ -14,20 +14,38 @@
       <p class ="name">Weather App</p>
       <nav id="tab-menu">
         <ul>
-          <li><a href="#" data-tab="today" class="b-nav-tab active">今日の天気</a></li>
+          <li><a href="#" data-tab="today-weather" class="b-nav-tab active">今日の天気</a></li>
           <li><a href="#" data-tab="green" class="b-nav-tab">5days</a></li>
           <li><a href="#" data-tab="blue" class="b-nav-tab">雨雲レーダー</a></li>
         </ul>
       </nav>
     </header>
-    <div id="today" class="b-tab active">
-      <div class="wrapper">
-        <textarea  id="city"></textarea>
-        <button class="search">検索</button>
+    <div id="today-weather" class="b-tab active">
+      <div id ="city-search">
+        <input type="text" class="city-search__input" placeholder="市区町村名を入力"></input>
+        <button class="city-search__button">検索</button>
       </div>
-    </div>
+      <div id="today-weather-wrapper">
+        <div id ="left-colum">
+          <div id="weather-display">
+            <p class ="weather-display__city-name"></p>   
+            <img class="weather-display__weather-icon" alt="天気アイコン">
+          </div>
+        </div>
+        <div id ="right-colum">
+          <div id ="temperature-and-precipitation">
+            <p>最高気温</p>
+            <p class ="temp-max"></p>
+            <p>最低気温</p>
+            <p class ="temp-min"></p>
+            <p>降水量</p>
+            <p class ="precipitation"></p>
+          </div>
+        </div>  
+      </div>
+      </div> 
     <div id="green" class="b-tab">
-      Green tab content
+    </div>
     </div>
     <div id="blue" class="b-tab">
       Blue tab content
@@ -40,3 +58,8 @@
 <!-- テキストエリアから、APIで経度、緯度を算出する -->
 <!-- ポストマンでテストした方が良い -->
 <!-- 算出後、その値を天気データの経度、緯度の値にあてはめさせる -->
+
+<!-- 気温取得 -->
+<!-- 気温表示 -->
+<!-- 気温と場所の位置を修正 -->
+
