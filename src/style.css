@@ -13,7 +13,7 @@ body {
   @apply text-[40px];
 }
 header {
-  @apply flex items-center justify-around;
+  @apply flex items-center justify-around m-10;
 }
 nav ul li {
   @apply inline-block mr-2.5 mx-5 my-0;
@@ -34,14 +34,14 @@ nav ul li {
   @apply flex justify-center m-5;
 }
 .city-search__input {
-  @apply h-[30px] w-[300px] rounded-[5%];
+  @apply h-[30px] w-[300px]  bg-white border;
 }
 .city-search__button {
   @apply bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px];
   /* color: white; */
 }
 #today-weather-wrapper {
-  @apply flex flex-col w-[1000px] justify-evenly items-center bg-[white] mx-auto my-[100px] rounded-[300px];
+  @apply flex flex-col w-[1000px] justify-evenly items-center bg-[white] mx-auto my-[100px] rounded-[300px] p-10;
 }
 #weather-display {
   @apply flex flex-col items-center;
@@ -69,6 +69,5 @@ nav ul li {
 #level-of-humidity-warapper,
 #wind-speed-warapper,
 #atmospheric-pressure-warapper {
-  @apply flex flex-col items-center w-[100px] m-5;
-  /* border: 1px solid #000000; */
+  @apply flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around;
 }
