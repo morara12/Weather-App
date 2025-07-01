@@ -1,124 +1,74 @@
-/* @import "tailwindcss"; */
-
-body{
-  background-color: #EAF8FA;
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+@import "tailwindcss";
+body {
+  @apply bg-[#EAF8FA] not-italic m-0;
   /* font-family: "Cormorant", serif; */
   font-optical-sizing: auto;
-  font-style: normal;
-    margin: 0;
 }
-
-.name{
-  font-size: 40px;
+.name {
+  @apply text-[40px];
 }
-
-header{
-	display: flex;
-	align-items: center;
-  justify-content: space-around;
+header {
+  @apply flex items-center justify-around;
 }
-
-nav ul li{
-  display: inline-block;
-  margin: 0 20px;
-  margin-right: 10px;
+nav ul li {
+  @apply inline-block mr-2.5 mx-5 my-0;
 }
 .b-tab {
-  padding: 20px;
-  display: none;
+  @apply hidden p-5;
 }
-
 .b-tab.active {
-  display: block;
+  @apply block;
 }
-
 .b-nav-tab {
-  display: inline-block;
-  padding: 20px;
+  @apply inline-block p-5;
 }
-
 .b-nav-tab.active {
-  color: #ff4200;
+  @apply text-[#ff4200];
 }
-
-#city-search{
-  display:flex;
-  justify-content: center;
-  margin:20px;
+#city-search {
+  @apply flex justify-center m-5;
 }
-
-.city-search__input{
-  border-radius: 5%;
-  height: 30px;
-  width: 300px;
+.city-search__input {
+  @apply h-[30px] w-[300px] rounded-[5%];
 }
-
-.city-search__button{
+.city-search__button {
+  @apply bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px];
   /* color: white; */
-  background-color: #8BD0D9;
-  margin-left: 30px;
-  width:100px;
-  border-radius: 30px;
-  font-size: 16px;
 }
-
-#today-weather-wrapper{
-  display:flex;
-  flex-direction: column;
-  margin: 100px auto;
-  width:1000px;
-  justify-content: space-evenly;
-  align-items: center;
-  border-radius: 300px;
-  background-color: white;
+#today-weather-wrapper {
+  @apply flex flex-col w-[1000px] justify-evenly items-center bg-[white] mx-auto my-[100px] rounded-[300px];
 }
-
-#weather-display{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+#weather-display {
+  @apply flex flex-col items-center;
 }
-
-.weather-display__city-name{
-  font-weight: bold;
-  font-size: 24px;
+.weather-display__city-name {
+  @apply font-[bold] text-2xl;
 }
-
-.weather-display__weather-icon{
-  width: 100%;
-  height: 100%;
+.weather-display__weather-icon {
+  @apply w-full h-full;
 }
-
-#temperature-and-precipitation{
-  display: flex;
-  align-items: center;
-  line-height:4px;
-  font-size:24px;
+#temperature-and-precipitation {
+  @apply flex items-center leading-[4px] text-2xl;
 }
-
-#weather-5days{
-  border: 1px solid #333; 
-  border-collapse: collapse; 
+#weather-5days {
+  @apply border border-solid border-[#333] border-collapse;
 }
-
 #weather-5days th,
 #weather-5days td {
-  border: 1px solid #333; /* 各セルにも枠をつける */
-  padding: 8px 12px;
-  text-align: center;
+  @apply border text-center px-3 py-2 border-solid border-[#333];
+  /* 各セルにも枠をつける */
 }
-
 #temp-max-warapper,
 #temp-min-warapper,
 #precipitation-warapper,
 #level-of-humidity-warapper,
 #wind-speed-warapper,
-#atmospheric-pressure-warapper{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin:20px;
+#atmospheric-pressure-warapper {
+  @apply flex flex-col items-center w-[100px] m-5;
   /* border: 1px solid #000000; */
-  width:100px;
 }
-

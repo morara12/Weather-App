@@ -1,5 +1,6 @@
 import '/src/style.css'
 import '/src/script.js'
+
 // import tailwindcss from '@tailwindcss/vite'
 
 // import  './index.html'
