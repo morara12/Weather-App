@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
+  
     <meta charset="UTF-8">
     <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
     <link rel="stylesheet" href="/style.css">
@@ -9,52 +10,46 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
     <title>Weather App</title>
   </head>
-  <body>
-    <header>
-      <p class ="name">Weather App</p>
+  <!-- not-itali…font-style: normal; -->
+  <body class="bg-[#EAF8FA] not-italic m-0  font-optical-sizing: auto;">
+    <header class="flex items-center justify-around m-10">
+      <p class ="name text-[40px]">Weather App</p>
       <nav id="tab-menu">
         <ul>
-          <li><a href="#" data-tab="today-weather" class="b-nav-tab active">今日の天気</a></li>
-          <li><a href="#" data-tab="5days-weather" class="b-nav-tab">5days</a></li>
-          <li><a href="#" data-tab="blue" class="b-nav-tab">雨雲レーダー</a></li>
+          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="today-weather" class="b-nav-tab active">今日の天気</a></li>
+          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="5days-weather" class="b-nav-tab">5days</a></li>
+          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="blue" class="b-nav-tab">雨雲レーダー</a></li>
         </ul>
       </nav>
     </header>
-    <div id="today-weather" class="b-tab active">
-      <div id ="city-search">
-        <input type="text" class="city-search__input" placeholder="市区町村名を入力"></input>
-        <button class="city-search__button">検索</button>
+    <div id="today-weather" class="b-tab hidden p-5 active block">
+      <div id ="city-search" class="flex justify-center m-5">
+        <input type="text" class="city-search__input h-[30px] w-[300px] bg-white border" placeholder="市区町村名を入力"></input>
+        <button class="city-search__button bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px]">検索</button>
       </div>
-      <div id="today-weather-wrapper">
+      <div id="today-weather-wrapper" class="flex flex-col w-[1000px] justify-evenly items-center bg-[white] mx-auto my-[100px] rounded-[300px] p-10;">
         <div id ="left-colum">
-          <div id="weather-display">
-            <p class ="weather-display__city-name"></p>   
-            <img class="weather-display__weather-icon" alt="天気アイコン">
+          <div id="weather-display flex flex-col items-center">
+            <p class ="weather-display__city-name font-[bold] text-2x"></p>   
+            <img class="weather-display__weather-icon w-full h-full" alt="天気アイコン">
           </div>
         </div>
         <div id ="right-colum">
-          <div id ="temperature-and-precipitation">
-            <div id="temp-max-warapper">
+          <div id ="temperature-and-precipitation" class="flex items-center leading-[4px] text-2xl">
+            <!-- flex-col…flex-direction: column -->
+            <div id="temp-max-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>最高気温</p>
               <p class ="temp-max"></p>
             </div>
-            <div id="temp-min-warapper">
+            <div id="temp-min-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>最低気温</p>
               <p class ="temp-min"></p>
             </div>
-            <!-- <div id="precipitation-warapper">
-              <p>降水量</p>
-              <p class ="precipitation"></p>
-            </div> -->
-            <div id="level-of-humidity-warapper">
+            <div id="level-of-humidity-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>湿度</p>
               <p class ="level-of-humidity"></p>
             </div>  
-            <!-- <div id="atmospheric-pressure-warapper">
-              <p class ="atmospheric-pressure"></p>
-              <p>気圧</p>
-            </div>   -->
-            <div id="wind-speed-warapper">
+            <div id="wind-speed-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>風速</p>
               <p class ="wind-speed"></p>
             </div>
@@ -62,91 +57,429 @@
         </div>  
       </div>
       </div> 
-    <div id="5days-weather" class="b-tab">
-      <button class="city-search__button">検索</button>
-      <div id="weather-5days">
-        <table class ="weather-5days__left-table">
+    <div id="5days-weather" class="b-tab hidden p-5">
+      <!-- text-base （16px） rounded丸くするもの-->
+      <button class="city-search__button bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px]"></button>
+      <!-- border-collapse…border-collapse: collapse 
+      表 (<table>) の中のセルが境界を共有するか分離するかを設定。この場合は分離しない -->
+      <div id="weather-5days" class="flex justify-evenly">
+        <table class ="weather-5days__left-table bg-white">
             <thead>
               <tr>
-                <th></th>
-                <th class ="Day0"></th>
-                <th class ="Day1"></th>
-                <th class ="Day2"></th>
-                <th class ="Day3"></th>
-                <th class ="Day4"></th>
+                <!-- 今日の日付～四日後までの日にちと曜日の表示 -->
+                <th class="border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+                <th class ="left-day0 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+                <th class ="left-day1 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+                <th class ="left-day2 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+                <th class ="left-day3 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+                <th class ="left-day4 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
               </tr>
-            </thead>   
             <tbody>
+            </thead>   
             <tr>
-              <td>札幌</td>
-              <td class="sapporo">1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium w-[76px]">札幌</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sapporo-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sapporo-temp0-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Sapporo-temp0-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sapporo-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sapporo-temp1-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Sapporo-temp1-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>                
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sapporo-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sapporo-temp2-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Sapporo-temp2-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sapporo-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sapporo-temp3-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Sapporo-temp3-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>   
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sapporo-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sapporo-temp4-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Sapporo-temp4-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>  
+              </td>
             </tr>
             <tr>
-              <td>秋田</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>              
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">秋田</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Akita-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Akita-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Akita-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Akita-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Akita-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Akita-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Akita-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Akita-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Akita-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Akita-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Akita-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Akita-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Akita-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Akita-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Akita-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>              
             </tr>
             <tr>
-              <td>仙台</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>              
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">仙台</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sendai-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sendai-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Sendai-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sendai-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sendai-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Sendai-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sendai-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sendai-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Sendai-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sendai-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sendai-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Sendai-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Sendai-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Sendai-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Sendai-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>              
             </tr>
             <tr>
-              <td>東京</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>              
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">東京</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Tokyo-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Tokyo-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Tokyo-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Tokyo-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Tokyo-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Tokyo-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Tokyo-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Tokyo-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Tokyo-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Tokyo-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Tokyo-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Tokyo-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Tokyo-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Tokyo-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Tokyo-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>             
             </tr>
             <tr>
-              <td>金沢</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">金沢</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Kanazawa-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Kanazawa-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Kanazawa-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Kanazawa-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Kanazawa-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Kanazawa-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Kanazawa-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Kanazawa-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Kanazawa-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Kanazawa-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Kanazawa-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Kanazawa-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Kanazawa-icon4  flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Kanazawa-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Kanazawa-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+
+
+        <!-- 右側わからなくならないよう配置 -->
+        <table class ="weather-5days__right-table bg-white">
+          <thead>
+            <tr>
+              <!-- 今日の日付～四日後までの日にちと曜日の表示 -->
+              <th class="border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+              <th class ="right-day0 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+              <th class ="right-day1 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+              <th class ="right-day2 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+              <th class ="right-day3 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+              <th class ="right-day4 border text-center px-3 py-2 border-solid border-[#333] bg-yellow-50"></th>
+            </tr>
+          </thead>   
+          <tbody>
+            <tr>
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium w-[76px]">名古屋</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Nagoya-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Nagoya-temp0-temp-max text-red-500  bg-red-50 w-[64px]"></p>
+                  <p class="Nagoya-temp0-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Nagoya-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Nagoya-temp1-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Nagoya-temp1-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>                
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Nagoya-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Nagoya-temp2-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Nagoya-temp2-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Nagoya-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Nagoya-temp3-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Nagoya-temp3-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>   
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Nagoya-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Nagoya-temp4-temp-max text-red-500 bg-red-50 w-[64px]"></p>
+                  <p class="Nagoya-temp4-temp-min text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div>  
+              </td>
+            </tr>
+            <tr>
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">大阪</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Oosaka-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Oosaka-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Oosaka-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Oosaka-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Oosaka-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Oosaka-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Oosaka-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Oosaka-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Oosaka-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Oosaka-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Oosaka-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Oosaka-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Oosaka-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Oosaka-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Oosaka-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>              
+            </tr>
+            <tr>
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">広島</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hirosima-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hirosima-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hirosima-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hirosima-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hirosima-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hirosima-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hirosima-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hirosima-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hirosima-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hirosima-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hirosima-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hirosima-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hirosima-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hirosima-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hirosima-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>              
+            </tr>
+            <tr>
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">福岡</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hukuoka-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hukuoka-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hukuoka-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hukuoka-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hukuoka-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hukuoka-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hukuoka-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hukuoka-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hukuoka-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hukuoka-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hukuoka-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hukuoka-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Hukuoka-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Hukuoka-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Hukuoka-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>             
+            </tr>
+            <tr>
+              <td class="border text-center px-3 py-2 border-solid border-[#333] bg-white font-medium">那覇</td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Naha-icon0 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Naha-temp0-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Naha-temp0-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Naha-icon1 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Naha-temp1-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Naha-temp1-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Naha-icon2 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Naha-temp2-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Naha-temp2-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Naha-icon3 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Naha-temp3-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Naha-temp3-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
+              <td class="border text-center border-solid border-[#333]">
+                <img class="Naha-icon4 flex mx-auto" alt="天気アイコン">
+                <div class="flex justify-center gap-2 bg-blue-50">
+                  <p class="Naha-temp4-temp-max text-red-500 bg-red-50 w-[64px]"> </p>
+                  <p class="Naha-temp4-temp-min  text-blue-500 bg-blue-50 w-[64px]"></p>
+                </div> 
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
-
-
-
-        <table class ="weather-5days__right-table">
-          <tr>
-            <td>名古屋</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>大阪</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>広島</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>福岡</td>
-            <td></td>
-          </tr>
-          <tr>
-            <td>那覇</td>
-            <td></td>
-          </tr>
-        </table>
     </div>
-    <div id="blue" class="b-tab">
+    <div id="blue" class="b-tab hidden p-5">
       Blue tab content
     </div>
   </body>

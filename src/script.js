@@ -43,7 +43,7 @@ async function getCityData(){
     // HTTP通信(API通信)でサーバーからデータを取得
     const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${citySearchInput.value}&limit=2&appid=${openWeatherAccessToken}`);
     const item = response.data;
-
+console.log(item)
     console.log("緯度",item[0].local_names.ja)
     console.log("緯度",item[0].lat)
     console.log("経度",item[0].lon)
@@ -104,7 +104,7 @@ const displayWeatherForecast = function(icon,local_names,temp_max,temp_min,humid
   // 湿度
   const levelOfHumidity = document.querySelector(".level-of-humidity");
   levelOfHumidity.textContent = `${humidity}%`
-  
+
   // 風速　 m/s
   const windSpeed = document.querySelector(".wind-speed");
   windSpeed.textContent = `${wind}m/s`
@@ -113,87 +113,72 @@ const displayWeatherForecast = function(icon,local_names,temp_max,temp_min,humid
 const  btn5days= document.querySelector('[data-tab="5days-weather"]');
 btn5days.addEventListener("click", () => get5DaysWeatherForecastData());
 
-
-
 async function get5DaysWeatherForecastData(){
   try {
     const cities = [
-      { name: "札幌市", lat: 43.061936, lon:  141.3542924 },
-      { name: "秋田市", lat: 39.7197629, lon: 140.1034669 },
-      // { name: "仙台市", lat: 38.2677554, lon: 140.8691498 },
+      // 左の表の都市
+      { name: "札幌市", lat: 43.061936, lon:  141.3542924,cssName: "Sapporo"},
+      { name: "秋田市", lat: 39.7197629, lon: 140.1034669,cssName: "Akita"} ,
+      { name: "仙台市", lat: 38.2677554, lon: 140.8691498,cssName: "Sendai"},
+      { name: "東京都", lat: 35.6768601, lon: 139.7638947,cssName: "Tokyo"},
+      { name: "金沢市", lat: 36.561627, lon: 136.6568822,cssName: "Kanazawa"},
+      // 右の表の都市
+      { name: "名古屋市", lat: 35.1851045, lon: 136.8998438,cssName: "Nagoya"},
+      { name: "大阪市", lat: 34.6937569, lon: 135.5014539,cssName: "Oosaka"},
+      { name: "広島市", lat: 34.3916058, lon: 132.4518156,cssName: "Hirosima"},
+      { name: "福岡市", lat: 33.5898988, lon: 130.4017509,cssName: "Hukuoka"},
+      { name: "那覇市", lat: 26.2122345, lon: 127.6791452,cssName: "Naha"},
     ];
 
     const openWeatherAccessToken = await getToken();
-    let test = [];
     // for (変数 of 配列)配列をループする
     for (const city of cities) {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&appid=${openWeatherAccessToken}&units=metric`);
       const weatherData = await response.data;
-      // console.log("五日間",weatherData)
-
-      const firstElement = weatherData.list[0].dt_txt
+      // console.log("都市名確認",weatherData)
       // https://www.javadrive.jp/regex-basic/sample/index6.html
-      
-      const regex =  /([01][0-9]|2[0-3]):00:00$/;
+      const regex =  /([01][0-9]|2[0-3]):00:00/g;
 
-      const firstTime = firstElement.match(regex);
-      
-      console.log("最初の時間",firstTime)
-
-
-      // https://www.sejuku.net/blog/25730
-      // 文字列を分割したり任意の箇所を抽出したりする際に使用
-      // 開始位置を指定しなければ今回だと11行目の単語から最後まで引っ張っている
-      // const firstTime = firstElement.test（regex
-      // // 現場的にAPIの書き方が変更したときまずいのでお勧めしない 
-
-      // marchが数字に対応していないため、Stringで文字列に変換
-      
       // match…文字列または正規表現を検索可能/
-      const timeArry = weatherData.list.filter(forecastInfo=> forecastInfo.dt_txt.match(regex) === firstTime);
+      const firsForecastInfoTime = weatherData.list[0].dt_txt.match(regex);
+      // 正規表現の方がおすすめ。substringはAPIが変更した際、対応できなくなるため
 
-      // const timeArry = weatherData.list.filter(time=> time.dt_txt.match(stringFirstTime));
-      // 時間だけのデータを取ってきてると勘違いするのでダメ
-      // 単語ごとに分ける
-        console.log("timeArry",timeArry)
+      // 変数名timeは時間だけのデータを取ってきてると勘違いするのでforecastInfoに変更
+      // includes() は Array インスタンスのメソッド特定の要素が配列に含まれているかどうかtrue または false で返す
+      // https://route-zero.com/recruit/route/1058/
+      // 「”a”を含む商品名」だけを表示したい場合の箇所参考
+      const timeArry = weatherData.list.filter(forecastInfo=>
+        forecastInfo.dt_txt.includes(firsForecastInfoTime)
+        // さらにこの中の要素でも時間だけmatchさせてほしいさせる
+      );
 
       // https://www.freecodecamp.org/japanese/news/javascript-array-of-objects-tutorial-how-to-create-update-and-loop-through-objects-using-js-array-methods/
       // 配列の中の各オブジェクト追加
       // ブラケット記法…[ ]（ブラケット）を使ってプロパティにアクセスする方法
       // ブラケット記法は、プロパティ名に変数を与えることができる
-
-
-      // 配列どんどん増えるので却下…
-     
-        timeArry['city.name'] = weatherData.city.name;
-        // console.log(timeArry)
-        // test.push(item); 
-      // 無駄なので配列の最後だけ
-    // 返り値がないのでmapに変更
-    // const updatedArray = timeArry.map(item => {
-    // item['city.name'] = weatherData.city.name;
-    //   return item;
-    // });
-
-
+      display5Daysweather(city.cssName,timeArry)
+      timeArry['cityName'] = weatherData.city.name;
     }
-
   } catch (error) {
     console.error(error);
   };
-  // console.log("test",test)
-  // display5Daysweather(updatedArray)
   getDateAndDay()
-
 }  
 
 
-const display5Daysweather = function(updatedArray){
-  console.log(updatedArray)
-  const b =timeArry
-  const a =document.querySelectorAll(`.${b.city.name}`)
-  console.log("テスト",a)
+const display5Daysweather = function(cssName,timeArry){
+  console.log("配列移動確認",timeArry)
   
+  for (let i = 0; i <5; i++){
+    const weatherIcon =document.querySelector(`.${cssName}-icon${i}`)
+    weatherIcon.src =`https://openweathermap.org/img/wn/${timeArry[i].weather[0].icon}@2x.png`;
+
+    const tempMax = document.querySelector(`.${cssName}-temp${i}-temp-max`);
+    tempMax.textContent =  Math.round(timeArry[i].main.temp_max);
+
+    const tempMin = document.querySelector(`.${cssName}-temp${i}-temp-min`);
+    tempMin.textContent = Math.round(timeArry[i].main.temp_min);
+  }
 } 
 
 
@@ -206,9 +191,7 @@ const display5Daysweather = function(updatedArray){
 // クラス名はデータはcitynem+クラス名に配列の番号を追加かまたはidをJSで追加し、クラス名に反映
 // その後/htmlで追加させる
 
-// timeArryが外に持ち出せない
-
-//   weatherData.list[0].main.temp_min= 
+// 都市名＋配列の番号＋アイコンのオブジェクト指定＝アイコン表示？
 
 const getDateAndDay= function () {
 
@@ -220,26 +203,23 @@ const getDateAndDay= function () {
 
   
   const today = dayjs();
-  const dow = ["日","月","火","水","木","金","土"];
-
+  
   for (let i = 0; i <5; i++) {
     const targetDate = today.add(i, "day"); 
     // 配列になってるので１ではなく0スタート
 
     const date = targetDate.date()
     // (必要な情報を取得するため日付を取る2025-06-26T10:17:16+09:00)
-     // 曜日が日～土で0～6で番号が降られているので変換し、取得
+    // 曜日が日～土で0～6で番号が降られているので変換し、取得
     const weekdy =targetDate.format("dd"); 
 
-    const table = document.querySelector(`.Day${i}`);
-  
-    table.innerHTML = `${date} (${weekdy})`;
-    
+    const tableRight = document.querySelector(`.right-day${i}`);
+    const tableLeft = document.querySelector(`.left-day${i}`);
 
-    // setDate（今日を一日足した日にちをセット）
-    // https://rinyan-7.com/gas/date_setdate/
-    // today.setDate(today.date() + 1);
+    tableRight.innerHTML = `${date} (${weekdy})`;
+    tableLeft.innerHTML = `${date} (${weekdy})`;
   }
+
 }
 
 function Tabs() {
@@ -253,7 +233,7 @@ function Tabs() {
   const clear = function() {
     const tabElements = document.querySelectorAll('[data-tab]');
     for(let i = 0; i < tabElements.length ; i++) {
-      tabElements[i].classList.remove('active');
+      tabElements[i].classList.remove('active','text-[#ff4200]');
       const id = tabElements[i].getAttribute('data-tab');
       //  Element インターフェイスのメソッドで、この要素の指定された属性の値を返します
       document.getElementById(id).classList.remove('active');
