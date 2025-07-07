@@ -4,70 +4,21 @@
   @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
 */
 @import "tailwindcss";
-body {
-  @apply bg-[#EAF8FA] not-italic m-0;
-  /* font-family: "Cormorant", serif; */
-  font-optical-sizing: auto;
-}
-.name {
-  @apply text-[40px];
-}
-header {
-  @apply flex items-center justify-around m-10;
-}
-nav ul li {
-  @apply inline-block mr-2.5 mx-5 my-0;
-}
-.b-tab {
-  @apply hidden p-5;
-}
+
+/* 調査する */
+
 .b-tab.active {
   @apply block;
 }
-.b-nav-tab {
-  @apply inline-block p-5;
-}
+
 .b-nav-tab.active {
   @apply text-[#ff4200];
 }
-#city-search {
-  @apply flex justify-center m-5;
-}
-.city-search__input {
-  @apply h-[30px] w-[300px]  bg-white border;
-}
-.city-search__button {
-  @apply bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px];
-  /* color: white; */
-}
-#today-weather-wrapper {
-  @apply flex flex-col w-[1000px] justify-evenly items-center bg-[white] mx-auto my-[100px] rounded-[300px] p-10;
-}
-#weather-display {
-  @apply flex flex-col items-center;
-}
-.weather-display__city-name {
-  @apply font-[bold] text-2xl;
-}
-.weather-display__weather-icon {
-  @apply w-full h-full;
-}
-#temperature-and-precipitation {
-  @apply flex items-center leading-[4px] text-2xl;
-}
-#weather-5days {
-  @apply border border-solid border-[#333] border-collapse;
-}
-#weather-5days th,
-#weather-5days td {
-  @apply border text-center px-3 py-2 border-solid border-[#333];
+
+/* 他県記載するとき参考にすること*/
+/* #weather-5days th,
+#weather-5days td { */
+  /* @apply border text-center px-3 py-2 border-solid border-[#333]; */
   /* 各セルにも枠をつける */
-}
-#temp-max-warapper,
-#temp-min-warapper,
-#precipitation-warapper,
-#level-of-humidity-warapper,
-#wind-speed-warapper,
-#atmospheric-pressure-warapper {
-  @apply flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around;
-}
+/* } */
+
