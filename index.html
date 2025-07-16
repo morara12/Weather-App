@@ -16,21 +16,21 @@
       <p class ="name text-[40px]">Weather App</p>
       <nav id="tab-menu">
         <ul>
-          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="today-weather" class="b-nav-tab active">今日の天気</a></li>
-          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="5days-weather" class="b-nav-tab">5days</a></li>
-          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="blue" class="b-nav-tab">雨雲レーダー</a></li>
+          <li class="inline-block mr-2.5 mx-5 my-0"><a hFFref="#" data-tab="today-weather" class="b-nav-tab [&.active]:text-[#ff4200]">今日の天気</a></li>
+          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="5days-weather" class="b-nav-tab [&.active]:text-[#ff4200]">5days</a></li>
+          <li class="inline-block mr-2.5 mx-5 my-0"><a href="#" data-tab="blue" class="b-nav-tab [&.active]:text-[#ff4200]">雨雲レーダー</a></li>
         </ul>
       </nav>
     </header>
-    <div id="today-weather" class="b-tab hidden p-5 active block">
+    <div id="today-weather" class="b-tab hidden p-5 [&.active]:block ">
       <div id ="city-search" class="flex justify-center m-5">
-        <input type="text" class="city-search__input h-[30px] w-[300px] bg-white border" placeholder="市区町村名を入力"></input>
+        <input type="text" class="city-search__input h-[30px] w-[300px] bg-white border" placeholder="市区町村名を入力" value="八王子市"></input>
         <button class="city-search__button bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px]">検索</button>
       </div>
       <div id="today-weather-wrapper" class="flex flex-col w-[1000px] justify-evenly items-center bg-[white] mx-auto my-[100px] rounded-[300px] p-10;">
         <div id ="left-colum">
           <div id="weather-display flex flex-col items-center">
-            <p class ="weather-display__city-name font-[bold] text-2x"></p>   
+            <p class ="weather-display__city-name font-[bold] text-2x flex justify-center"></p>   
             <img class="weather-display__weather-icon w-full h-full" alt="天気アイコン">
           </div>
         </div>
@@ -57,9 +57,11 @@
         </div>  
       </div>
       </div> 
-    <div id="5days-weather" class="b-tab hidden p-5">
-      <!-- text-base （16px） rounded丸くするもの-->
-      <button class="city-search__button bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px]"></button>
+    <div id="5days-weather" class="b-tab hidden p-5 [&.active]:block">
+      <div id ="test" class="reload-btn-deployment flex items-center">
+        <button class="reload-btn bg-[#8BD0D9] w-[140px] h-[40px] text-base rounded-[30px] ml-30 mb-3">最新情報の更新</button>
+        <p class="reload-messeage ml-6 mb-3"></p>
+      </div>
       <!-- border-collapse…border-collapse: collapse 
       表 (<table>) の中のセルが境界を共有するか分離するかを設定。この場合は分離しない -->
       <div id="weather-5days" class="flex justify-evenly">
@@ -268,10 +270,7 @@
             </tr>
           </tbody>
         </table>
-
-
-
-        <!-- 右側わからなくならないよう配置 -->
+        <!-- 右側の表 -->
         <table class ="weather-5days__right-table bg-white">
           <thead>
             <tr>
@@ -479,7 +478,7 @@
         </table>
       </div>
     </div>
-    <div id="blue" class="b-tab hidden p-5">
+    <div id="blue" class="b-tab hidden p-5 [&.active]:block">
       Blue tab content
     </div>
   </body>

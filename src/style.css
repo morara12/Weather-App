@@ -1,24 +1,4 @@
-/*
-  Based on TailwindCSS recommendations,
-  consider using classes instead of the `@apply` directive
-  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
-*/
 @import "tailwindcss";
 
-/* 調査する */
-
-.b-tab.active {
-  @apply block;
-}
-
-.b-nav-tab.active {
-  @apply text-[#ff4200];
-}
-
-/* 他県記載するとき参考にすること*/
-/* #weather-5days th,
-#weather-5days td { */
-  /* @apply border text-center px-3 py-2 border-solid border-[#333]; */
-  /* 各セルにも枠をつける */
-/* } */
-
+/* activeの書き方 */
+/* https://zenn.dev/ixkaito/articles/advanced-tailwindcss *//* Loading Block */

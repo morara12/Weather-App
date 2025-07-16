@@ -4,7 +4,8 @@ import dayjs from "dayjs";
 // 日本時間に変換
 import ja from "dayjs/locale/ja";
 // 日本語化
-dayjs.locale(ja);  
+dayjs.locale(ja);
+
 
 // HTML内のid="city"のtextarea要素を取得
 const citySearchInput = document.querySelector(".city-search__input");
@@ -13,21 +14,14 @@ const btn = document.querySelector(".city-search__button");
 // textareaをクリックしたときにgetCity関数を実行
 btn.addEventListener("click", () => getCityData());
 
-// const citySearchInput = document.querySelector(".city-search__input");
 
-// async function getResponse(){
-//   const myHeaders = new Headers();
+const todayWeather = document.querySelector('[data-tab="today-weather"]');
 
-//   myHeaders.append("Authorization", "Bearer");
-
-//   const requestOptions = {
-//     method: "GET",
-//     headers: myHeaders,
-//     redirect: "follow"
-//   };
-//   return requestOptions;
-// }
-
+window.onload = function() {
+todayWeather.click();
+document.addEventListener('DOMContentLoaded',getCityData());
+}
+// window.onload = (todayWeather.addEventListener("click", () =>getCityData()));
 // トークン呼び出し
 async function  getToken(){
   const response  = await axios.get('/src/config.json');
@@ -53,15 +47,11 @@ console.log(item)
       item[0].lat,
       item[0].lon
     )
+    
   } catch (error) {
     console.error(error);
   }
 }
-
-// const requestOptions = {
-//   method: "GET",
-//   redirect: "follow"
-// };
 
 async function getWeatherforecastData(openWeatherAccessToken,local_names,lat,lon){
   try{
@@ -75,14 +65,13 @@ async function getWeatherforecastData(openWeatherAccessToken,local_names,lat,lon
       weatherData.main.temp_min,
       weatherData.main.humidity,
       weatherData.wind.speed,
-      // weatherData.main.grnd_level
     )
   } catch (error) {
     console.error(error);
   }
 }
 
-const displayWeatherForecast = function(icon,local_names,temp_max,temp_min,humidity,wind,grnd_level){
+const displayWeatherForecast = function(icon,local_names,temp_max,temp_min,humidity,wind){
   const weatherIcon = document.querySelector(".weather-display__weather-icon");
   weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
@@ -135,29 +124,43 @@ async function get5DaysWeatherForecastData(){
     for (const city of cities) {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&appid=${openWeatherAccessToken}&units=metric`);
       const weatherData = await response.data;
-      // console.log("都市名確認",weatherData)
       // https://www.javadrive.jp/regex-basic/sample/index6.html
       const regex =  /([01][0-9]|2[0-3]):00:00/g;
 
       // match…文字列または正規表現を検索可能/
-      const firsForecastInfoTime = weatherData.list[0].dt_txt.match(regex);
+      const firsForecastInfo = weatherData.list[0].dt_txt.match(regex);
       // 正規表現の方がおすすめ。substringはAPIが変更した際、対応できなくなるため
 
       // 変数名timeは時間だけのデータを取ってきてると勘違いするのでforecastInfoに変更
       // includes() は Array インスタンスのメソッド特定の要素が配列に含まれているかどうかtrue または false で返す
       // https://route-zero.com/recruit/route/1058/
       // 「”a”を含む商品名」だけを表示したい場合の箇所参考
-      const timeArry = weatherData.list.filter(forecastInfo=>
-        forecastInfo.dt_txt.includes(firsForecastInfoTime)
-        // さらにこの中の要素でも時間だけmatchさせてほしいさせる
-      );
+
+      // https://step-learn.com/article/javascript/197-array-del-null.html
+      const timeArray = weatherData.list.filter((forecastInfo) => {
+        // filter
+        const firsForecastInfotime =  forecastInfo.dt_txt.match(regex);
+      
+        // if(firsForecastInfo[0] === firsForecastInfotime[0]){
+        console.log("test",firsForecastInfo[0] === firsForecastInfotime[0])
+        const isTimeMatch =firsForecastInfo[0] === firsForecastInfotime[0] 
+        // 上から順にtrueかfaiseを返す
+        return isTimeMatch
+        // trueのものをfilterが認識して返す
+      })
+     
+      // console.log("timeArray",timeArray)
+      console.log("weatherData",weatherData)
+
+        // filterはnullを削除してくれる仕様なので、戻り値で結果として出す
 
       // https://www.freecodecamp.org/japanese/news/javascript-array-of-objects-tutorial-how-to-create-update-and-loop-through-objects-using-js-array-methods/
       // 配列の中の各オブジェクト追加
       // ブラケット記法…[ ]（ブラケット）を使ってプロパティにアクセスする方法
       // ブラケット記法は、プロパティ名に変数を与えることができる
-      display5Daysweather(city.cssName,timeArry)
-      timeArry['cityName'] = weatherData.city.name;
+      
+      timeArray['cityName'] = weatherData.city.name;
+      display5Daysweather(city.cssName,timeArray)
     }
   } catch (error) {
     console.error(error);
@@ -166,32 +169,21 @@ async function get5DaysWeatherForecastData(){
 }  
 
 
-const display5Daysweather = function(cssName,timeArry){
-  console.log("配列移動確認",timeArry)
+const display5Daysweather = function(cssName,timeArray){
+  // console.log("配列移動確認",timeArray[0].weather[0].icon)
   
   for (let i = 0; i <5; i++){
     const weatherIcon =document.querySelector(`.${cssName}-icon${i}`)
-    weatherIcon.src =`https://openweathermap.org/img/wn/${timeArry[i].weather[0].icon}@2x.png`;
+
+    weatherIcon.src =`https://openweathermap.org/img/wn/${timeArray[i].weather[0].icon}@2x.png`;
 
     const tempMax = document.querySelector(`.${cssName}-temp${i}-temp-max`);
-    tempMax.textContent =  Math.round(timeArry[i].main.temp_max);
+    tempMax.textContent =  Math.round(timeArray[i].main.temp_max);
 
     const tempMin = document.querySelector(`.${cssName}-temp${i}-temp-min`);
-    tempMin.textContent = Math.round(timeArry[i].main.temp_min);
+    tempMin.textContent = Math.round(timeArray[i].main.temp_min);
   }
 } 
-
-
-//   // 気温に絞る
-//   // get5DaysWeatherForecastDataから欲しい配列の取得
-// 札幌なら札幌の都市の配列取得したい/どこでわかるのか？→// 配列の中の各オブジェクトを追加してみる⇒成功
-// 秋田なのに札幌のデータ入ってる。どうすれば？
-// ⇒for constを正しく理解できていないか☑/☑して問題なければ、発動タイミングがおかしいのかも？要チェック
-// ⇒緯度経度で観たら問題ない/ｄｔはなに?時間
-// クラス名はデータはcitynem+クラス名に配列の番号を追加かまたはidをJSで追加し、クラス名に反映
-// その後/htmlで追加させる
-
-// 都市名＋配列の番号＋アイコンのオブジェクト指定＝アイコン表示？
 
 const getDateAndDay= function () {
 
@@ -199,9 +191,6 @@ const getDateAndDay= function () {
   // https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q1046486670
   // 今日の日付取得
   // Fri Jun 13 2025 16:15:47 GMT+0900 (日本標準時)
-
-
-  
   const today = dayjs();
   
   for (let i = 0; i <5; i++) {
@@ -221,6 +210,31 @@ const getDateAndDay= function () {
   }
 
 }
+
+
+const reloadBtn = document.querySelector('.reload-btn');
+reloadBtn.addEventListener("click", () =>  reloadMesseage());
+
+const reloadMesseage= function () {
+    get5DaysWeatherForecastData()
+    console.log("ボタン動作確認");
+
+    // メッセージを表示
+    document.querySelector(".reload-messeage").innerHTML  = "天気の情報を更新しました";
+
+    // 3秒後にメッセージを消す
+    setTimeout(function() {
+      document.querySelector(".reload-messeage").textContent = "";
+    }, 3000);
+}
+
+async function test() {
+  const openWeatherAccessToken = await getToken()
+
+  const response = await axios.get(`https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=${openWeatherAccessToken}`)
+  await response.data;
+}
+
 
 function Tabs() {
   const bindAll = function() {
