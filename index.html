@@ -12,7 +12,10 @@
   <!-- not-itali…font-style: normal; -->
   <body class="bg-[#EAF8FA] not-italic m-0  font-optical-sizing: auto;">
     <header class="flex items-center justify-around m-10">
-      <p class ="name text-[40px]">Weather App</p>
+      <div id="haiti" class="flex items-baseline">
+        <p class ="name text-[40px]">Weather App</p>
+        <input type="text" id=token-form class="h-[30px] w-[300px] bg-white border ml-5" placeholder="トークンを入力" ></input>
+      </div>
       <nav id="tab-menu">
         <ul>
           <li class="inline-block mr-2.5 mx-5 my-0"><a hFFref="#" data-tab="today-weather" class="b-nav-tab [&.active]:text-[#ff4200]">今日の天気</a></li>
@@ -26,35 +29,35 @@
         <button class="city-search__button bg-[#8BD0D9] w-[100px] text-base ml-[30px] rounded-[30px]">検索</button>
       </div>
       <div id="today-weather-wrapper" class="flex flex-col w-[1000px] justify-evenly items-center bg-[white] mx-auto my-[100px] rounded-[300px] p-10;">
-        <div id ="left-colum">
+        <div id ="top-colum">
           <div id="weather-display flex flex-col items-center">
             <p class ="weather-display__city-name font-[bold] text-2x flex justify-center"></p>   
             <img class="weather-display__weather-icon w-full h-full" alt="天気アイコン">
           </div>
         </div>
-        <div id ="right-colum">
+        <div id ="bottom-colum">
           <div id ="temperature-and-precipitation" class="flex items-center leading-[4px] text-2xl">
             <!-- flex-col…flex-direction: column -->
-            <div id="temp-max-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
+            <div id="temp-max-wrapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>最高気温</p>
               <p class ="temp-max"></p>
             </div>
-            <div id="temp-min-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
+            <div id="temp-min-wrapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>最低気温</p>
               <p class ="temp-min"></p>
             </div>
-            <div id="level-of-humidity-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
+            <div id="level-of-humidity-wrapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>湿度</p>
               <p class ="level-of-humidity"></p>
             </div>  
-            <div id="wind-speed-warapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
+            <div id="wind-speed-wrapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>風速</p>
               <p class ="wind-speed"></p>
             </div>
           </div>
         </div>  
       </div>
-      </div> 
+    </div> 
     <div id="5days-weather" class="b-tab hidden p-5 [&.active]:block">
       <div id ="test" class="reload-btn-deployment flex items-center">
         <button class="reload-btn bg-[#8BD0D9] w-[140px] h-[40px] text-base rounded-[30px] ml-30 mb-3">最新情報の更新</button>

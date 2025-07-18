@@ -14,7 +14,6 @@ const btn = document.querySelector(".city-search__button");
 btn.addEventListener("click", () => getCityData());
 
 const todayWeather = document.querySelector('[data-tab="today-weather"]');
-
 // 標準で、今日の天気を表示
 window.onload = function() {
   todayWeather.click();
@@ -29,10 +28,9 @@ async function  getToken(){
   // async/await 順番通りに動かす/async functionは呼び出されるとPromiseを返す。
   // PromiseとはJavaScriptにおいて、非同期処理の操作が完了したときに結果を返すもの
   // Promiseは処理が実行中の処理を監視し、処理が問題なく完了すればresolve、反対に問題があればrejectを呼び出してメッセージを表示します。
-  const response  = await axios.get('/src/config.json');
-  const token = response.data;
+  const tokenForm = document.getElementById("token-form");
 
-  return token.openWeatherAccessToken;
+  return tokenForm.value
 }
 
 // ユーザーが都市名が入力することにより、緯度経度の情報の取得
