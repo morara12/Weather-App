@@ -1,10 +1,11 @@
+
 import axios from 'axios';
 import dayjs from "dayjs";
-import '/src/style.css'
 // 日本時間に変換
 import ja from "dayjs/locale/ja";
 // 日本語化
 dayjs.locale(ja);
+
 
 // HTML内のid="city"のtextarea要素を取得
 const citySearchInput = document.querySelector(".city-search__input");
@@ -13,49 +14,45 @@ const btn = document.querySelector(".city-search__button");
 // textareaをクリックしたときにgetCity関数を実行
 btn.addEventListener("click", () => getCityData());
 
-const todayWeather = document.querySelector('[data-tab="today-weather"]');
-// 標準で、今日の天気を表示
-window.onload = function() {
-  todayWeather.click();
-  // https://zenn.dev/antez/books/6da596a697aa86/viewer/71cd05
-  // 発火のタイミングも細かく調整できる
-  // DOMContentLoaded: ウェブブラウザーがDOMを構築したら発火
-  document.addEventListener('DOMContentLoaded',getCityData());
-}
 
+const todayWeather = document.querySelector('[data-tab="today-weather"]');
+
+window.onload = function() {
+todayWeather.click();
+document.addEventListener('DOMContentLoaded',getCityData());
+}
+// window.onload = (todayWeather.addEventListener("click", () =>getCityData()));
 // トークン呼び出し
 async function  getToken(){
-  // async/await 順番通りに動かす/async functionは呼び出されるとPromiseを返す。
-  // PromiseとはJavaScriptにおいて、非同期処理の操作が完了したときに結果を返すもの
-  // Promiseは処理が実行中の処理を監視し、処理が問題なく完了すればresolve、反対に問題があればrejectを呼び出してメッセージを表示します。
-  const tokenForm = document.getElementById("token-form");
+  const response  = await axios.get('/src/config.json');
+  const token = response.data;
 
-  return tokenForm.value
+  return token.openWeatherAccessToken;
 }
 
-// ユーザーが都市名が入力することにより、緯度経度の情報の取得
 async function getCityData(){
-  // try…catch文は、予想していない異常によりエラーが発生するような場面で意図的に回避するための処理
   try{
-    // 例外が発生する可能性のある処理
+    // const requestOptions = await getResponse();
     const openWeatherAccessToken = await getToken()
     // HTTP通信(API通信)でサーバーからデータを取得
     const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${citySearchInput.value}&limit=2&appid=${openWeatherAccessToken}`);
     const item = response.data;
-
+console.log(item)
+    console.log("緯度",item[0].local_names.ja)
+    console.log("緯度",item[0].lat)
+    console.log("経度",item[0].lon)
     getWeatherforecastData(
       openWeatherAccessToken,
       item[0].local_names.ja,
       item[0].lat,
       item[0].lon
-    )  
+    )
+    
   } catch (error) {
-    // 例外が発生した場合の処理
     console.error(error);
   }
 }
 
-// 今日の天気の情報
 async function getWeatherforecastData(openWeatherAccessToken,local_names,lat,lon){
   try{
     const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${openWeatherAccessToken}`)
@@ -70,19 +67,15 @@ async function getWeatherforecastData(openWeatherAccessToken,local_names,lat,lon
       weatherData.wind.speed,
     )
   } catch (error) {
-    console.error(er箇所ror);
+    console.error(error);
   }
 }
 
-// 今日の天気をhtmlで表示するための処理
 const displayWeatherForecast = function(icon,local_names,temp_max,temp_min,humidity,wind){
   const weatherIcon = document.querySelector(".weather-display__weather-icon");
   weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
   const weatherDisplayCityName = document.querySelector(".weather-display__city-name");
-  // let element = document.querySelector('div');
-  // console.log(element.textContent);
-  // htmlの文言を確認することも可能
   weatherDisplayCityName.textContent = local_names;
 
   const tempMax = document.querySelector(".temp-max");
@@ -113,17 +106,17 @@ async function get5DaysWeatherForecastData(){
   try {
     const cities = [
       // 左の表の都市
-      { name: "札幌市", lat: 43.061936, lon:141.3542924, cssName: "Sapporo"},
-      { name: "秋田市", lat: 39.7197629, lon: 140.1034669, cssName: "Akita"} ,
-      { name: "仙台市", lat: 38.2677554, lon: 140.8691498, cssName: "Sendai"},
-      { name: "東京都", lat: 35.6768601, lon: 139.7638947, cssName: "Tokyo"},
-      { name: "金沢市", lat: 36.561627, lon: 136.6568822, cssName: "Kanazawa"},
+      { name: "札幌市", lat: 43.061936, lon:  141.3542924,cssName: "Sapporo"},
+      { name: "秋田市", lat: 39.7197629, lon: 140.1034669,cssName: "Akita"} ,
+      { name: "仙台市", lat: 38.2677554, lon: 140.8691498,cssName: "Sendai"},
+      { name: "東京都", lat: 35.6768601, lon: 139.7638947,cssName: "Tokyo"},
+      { name: "金沢市", lat: 36.561627, lon: 136.6568822,cssName: "Kanazawa"},
       // 右の表の都市
-      { name: "名古屋市", lat: 35.1851045, lon: 136.8998438, cssName: "Nagoya"},
-      { name: "大阪市", lat: 34.6937569, lon: 135.5014539, cssName: "Oosaka"},
-      { name: "広島市", lat: 34.3916058, lon: 132.4518156, cssName: "Hirosima"},
-      { name: "福岡市", lat: 33.5898988, lon: 130.4017509, cssName: "Hukuoka"},
-      { name: "那覇市", lat: 26.2122345, lon: 127.6791452, cssName: "Naha"},
+      { name: "名古屋市", lat: 35.1851045, lon: 136.8998438,cssName: "Nagoya"},
+      { name: "大阪市", lat: 34.6937569, lon: 135.5014539,cssName: "Oosaka"},
+      { name: "広島市", lat: 34.3916058, lon: 132.4518156,cssName: "Hirosima"},
+      { name: "福岡市", lat: 33.5898988, lon: 130.4017509,cssName: "Hukuoka"},
+      { name: "那覇市", lat: 26.2122345, lon: 127.6791452,cssName: "Naha"},
     ];
 
     const openWeatherAccessToken = await getToken();
@@ -148,13 +141,15 @@ async function get5DaysWeatherForecastData(){
         // filter
         const firsForecastInfotime =  forecastInfo.dt_txt.match(regex);
       
+        // if(firsForecastInfo[0] === firsForecastInfotime[0]){
+        console.log("test",firsForecastInfo[0] === firsForecastInfotime[0])
         const isTimeMatch =firsForecastInfo[0] === firsForecastInfotime[0] 
         // 上から順にtrueかfaiseを返す
         return isTimeMatch
         // trueのものをfilterが認識して返す
       })
 
-      // filterはnullを削除してくれる仕様なので、戻り値で結果として出す
+        // filterはnullを削除してくれる仕様なので、戻り値で結果として出す
 
       // https://www.freecodecamp.org/japanese/news/javascript-array-of-objects-tutorial-how-to-create-update-and-loop-through-objects-using-js-array-methods/
       // 配列の中の各オブジェクト追加
@@ -172,17 +167,17 @@ async function get5DaysWeatherForecastData(){
 
 
 const display5Daysweather = function(cssName,timeArray){
+  // console.log("配列移動確認",timeArray[0].weather[0].icon)
+  
   for (let i = 0; i <5; i++){
     const weatherIcon =document.querySelector(`.${cssName}-icon${i}`)
 
     weatherIcon.src =`https://openweathermap.org/img/wn/${timeArray[i].weather[0].icon}@2x.png`;
 
     const tempMax = document.querySelector(`.${cssName}-temp${i}-temp-max`);
-
     tempMax.textContent =  Math.round(timeArray[i].main.temp_max);
 
     const tempMin = document.querySelector(`.${cssName}-temp${i}-temp-min`);
-
     tempMin.textContent = Math.round(timeArray[i].main.temp_min);
   }
 } 
@@ -213,11 +208,13 @@ const getDateAndDay= function () {
 
 }
 
+
 const reloadBtn = document.querySelector('.reload-btn');
 reloadBtn.addEventListener("click", () =>  reloadMesseage());
 
 const reloadMesseage= function () {
     get5DaysWeatherForecastData()
+    console.log("ボタン動作確認");
 
     // メッセージを表示
     document.querySelector(".reload-messeage").innerHTML  = "天気の情報を更新しました";
@@ -227,6 +224,14 @@ const reloadMesseage= function () {
       document.querySelector(".reload-messeage").textContent = "";
     }, 3000);
 }
+
+async function test() {
+  const openWeatherAccessToken = await getToken()
+
+  const response = await axios.get(`https://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid=${openWeatherAccessToken}`)
+  await response.data;
+}
+
 
 function Tabs() {
   const bindAll = function() {
