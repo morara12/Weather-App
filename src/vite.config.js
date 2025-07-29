@@ -13,6 +13,6 @@ export default defineConfig({
     }),
   ],
   define: {
-    VITE_API_KEY: import.meta.env.VITE_API_KEYa
+    VITE_API_KEY: import.meta.env.VITE_API_KEY
   }
 });
