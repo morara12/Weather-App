@@ -14,7 +14,6 @@
     <header class="flex items-center justify-around m-10">
       <div id="haiti" class="flex items-baseline">
         <p class ="name text-[40px]">Weather App</p>
-        <input type="text" id=token-form class="h-[30px] w-[300px] bg-white border ml-5" placeholder="トークンを入力" ></input>
       </div>
       <nav id="tab-menu">
         <ul>
@@ -40,7 +39,7 @@
             <!-- flex-col…flex-direction: column -->
             <div id="temp-max-wrapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>最高気温</p>
-              <p class ="temp-max"></p>
+              <p class ="temp-max">℃</p>
             </div>
             <div id="temp-min-wrapper" class="flex flex-col items-center w-[100px] h-[90px]  m-5 justify-around">
               <p>最低気温</p>
@@ -61,7 +60,7 @@
     <div id="5days-weather" class="b-tab hidden p-5 [&.active]:block">
       <div id ="test" class="reload-btn-deployment flex items-center">
         <button class="reload-btn bg-[#8BD0D9] w-[140px] h-[40px] text-base rounded-[30px] ml-30 mb-3">最新情報の更新</button>
-        <p class="reload-messeage ml-6 mb-3"></p>
+        <p class="reload-message ml-6 mb-3"></p>
       </div>
       <!-- border-collapse…border-collapse: collapse 
       表 (<table>) の中のセルが境界を共有するか分離するかを設定。この場合は分離しない -->

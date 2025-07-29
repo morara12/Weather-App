@@ -1,16 +1,15 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
+import legacy from '@vitejs/plugin-legacy';
 
 export default defineConfig({
-  build: {
-    lib: {
-      entry: "src/extension.ts",
-      name: "extension",
-      formats: ["cjs"], // CommonJS形式で出力
-      fileName: () => "extension.js",
-    },
-    rollupOptions: {
-      external: ["vscode"],
-    },
-    sourcemap: true,
+  server: {
+    port: 8080,
+    open: '/src/index.html',
   },
+  plugins: [
+    legacy({
+      targets: ['ie >= 11'],
+      additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
+    }),
+  ],
 });

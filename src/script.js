@@ -1,5 +1,9 @@
 import axios from 'axios';
 import dayjs from "dayjs";
+import ja from 'dayjs/locale/ja'
+dayjs.locale(ja);
+const apiKey = import.meta.env.VITE_API_KEY;
+
 // 日本時間に変換
 // HTML内のid="city"のtextarea要素を取得
 const citySearchInput = document.querySelector(".city-search__input");
@@ -11,27 +15,18 @@ btn.addEventListener("click", () => getCityData());
 const todayWeather = document.querySelector('[data-tab="today-weather"]');
 
 window.onload = function() {
-todayWeather.click();
-document.addEventListener('DOMContentLoaded',getCityData());
-}
-
-// トークン呼び出し
-async function  getToken(){
-  const response  = await axios.get('/src/config.json');
-  const token = response.data;
-
-  return token.openWeatherAccessToken;
+  todayWeather.click();
+  document.addEventListener('DOMContentLoaded',getCityData());
 }
 
 async function getCityData(){
   try{
-    const openWeatherAccessToken = await getToken()
+    console.log(apiKey)
     // HTTP通信(API通信)でサーバーからデータを取得
-    const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${citySearchInput.value}&limit=2&appid=${openWeatherAccessToken}`);
+    const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${citySearchInput.value}&limit=2&appid=${apiKey}`);
     const item = response.data[0]
 
     getWeatherForecastData(
-      openWeatherAccessToken,
       item.local_names.ja,
       item.lat,
       item.lon
@@ -41,9 +36,9 @@ async function getCityData(){
   }
 }
 
-async function getWeatherForecastData(openWeatherAccessToken,local_names,lat,lon){
+async function getWeatherForecastData(local_names,lat,lon){
   try{
-    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${openWeatherAccessToken}`)
+    const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`)
     const weatherData = response.data;
 
     displayWeatherForecast(
@@ -63,28 +58,27 @@ const displayWeatherForecast = function(icon,local_names,temp_max,temp_min,humid
   const weatherIcon = document.querySelector(".weather-display__weather-icon");
   weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
-  const weatherDisplayCityName = document.querySelector(".weather-display__city-name");
-  weatherDisplayCityName.textContent = local_names;
-
-  const tempMax = document.querySelector(".temp-max");
-
   // Math.round…整数になるまで四捨五入
   // https://zenn.dev/shimpo/articles/open-weather-map-go-20250209
   // https://detail.chiebukuro.yahoo.co.jp/qa/question_detail/q11130406411
   // デフォルトでケルビン（動のない状態が0K=-273.15℃(絶対零度)）（K）表示なので、摂氏（水の凝固点を基準）（℃）に変換するために、
   // 273.15度引く必要がある
-  tempMax.textContent = `${Math.round(temp_max - 273.15)}℃`;
 
-  const tempMin = document.querySelector(".temp-min");
-  tempMin.textContent = `${Math.round(temp_min - 273.15)}℃`;
-  
-  // 湿度
-  const levelOfHumidity = document.querySelector(".level-of-humidity");
-  levelOfHumidity.textContent = `${humidity}%`
+  const weatherObject =[
+    {classname:`weather-display__city-name`, argument:local_names},
+    {classname:`temp-max`, argument:`${Math.round(temp_max - 273.15)}℃`},
+    {classname:`temp-min`, argument:`${Math.round(temp_min - 273.15)}℃`},
+    {classname:`level-of-humidity`, argument:`${humidity}%`} ,
+    {classname:`wind-speed`, argument:`${wind}m/s`}
+  ]
 
-  // 風速　 m/s
-  const windSpeed = document.querySelector(".wind-speed");
-  windSpeed.textContent = `${wind}m/s`
+  weatherObject.forEach(e => {
+    getHtmlAndDisplay(e.classname,e.argument)
+  });
+}
+
+function getHtmlAndDisplay(classname,argument){
+  const targetElement= document.querySelector(`.${classname}`).textContent= argument;
 }
 
 const  btn5days= document.querySelector('[data-tab="5days-weather"]');
@@ -107,10 +101,9 @@ async function get5DaysWeatherForecastData(){
       { name: "那覇市", lat: 26.2122345, lon: 127.6791452,cssName: "Naha"},
     ];
 
-    const openWeatherAccessToken = await getToken();
     // for (変数 of 配列)配列をループする
     for (const city of cities) {
-      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&appid=${openWeatherAccessToken}&units=metric`);
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}&units=metric`);
       const weatherData = await response.data;
       // https://www.javadrive.jp/regex-basic/sample/index6.html
       const regex =  /([01][0-9]|2[0-3]):00:00/g;
@@ -157,12 +150,8 @@ const display5DaysWeather = function(cssName,timeArray){
     const weatherIcon =document.querySelector(`.${cssName}-icon${i}`)
 
     weatherIcon.src =`https://openweathermap.org/img/wn/${timeArray[i].weather[0].icon}@2x.png`;
-
-    const tempMax = document.querySelector(`.${cssName}-temp${i}-temp-max`);
-    tempMax.textContent =  Math.round(timeArray[i].main.temp_max);
-
-    const tempMin = document.querySelector(`.${cssName}-temp${i}-temp-min`);
-    tempMin.textContent = Math.round(timeArray[i].main.temp_min);
+    getHtmlAndDisplay(`${cssName}-temp${i}-temp-max`,Math.round(timeArray[i].main.temp_max));
+    getHtmlAndDisplay(`${cssName}-temp${i}-temp-min`,Math.round(timeArray[i].main.temp_min));
   }
 } 
 
@@ -177,17 +166,12 @@ const getDateAndDay= function () {
   for (let i = 0; i <5; i++) {
     const targetDate = today.add(i, "day"); 
     // 配列になってるので１ではなく0スタート
-
     const date = targetDate.date()
     // (必要な情報を取得するため日付を取る2025-06-26T10:17:16+09:00)
     // 曜日が日～土で0～6で番号が降られているので変換し、取得
     const weekday=targetDate.format("dd"); 
-
-    const tableRight = document.querySelector(`.right-day${i}`);
-    const tableLeft = document.querySelector(`.left-day${i}`);
-
-    tableRight.innerHTML = `${date} (${weekday})`;
-    tableLeft.innerHTML = `${date} (${weekday})`;
+    getHtmlAndDisplay(`right-day${i}`,`${date} (${weekday})`)
+    getHtmlAndDisplay(`left-day${i}`,`${date} (${weekday})`) 
   }
 
 }
@@ -199,7 +183,7 @@ const reloadMessage= function () {
     get5DaysWeatherForecastData()
 
     // メッセージを表示
-    document.querySelector(".reload-message").innerHTML  = "天気の情報を更新しました";
+    document.querySelector(".reload-message").textContent  = "天気の情報を更新しました";
 
     // 3秒後にメッセージを消す
     setTimeout(function() {
