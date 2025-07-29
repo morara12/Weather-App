@@ -2,7 +2,7 @@ import axios from 'axios';
 import dayjs from "dayjs";
 import ja from 'dayjs/locale/ja'
 dayjs.locale(ja);
-const apiKey = import.meta.env.VITE_API_KEY;
+const apiKey = import.meta.env.API_KEY;
 
 // 日本時間に変換
 // HTML内のid="city"のtextarea要素を取得

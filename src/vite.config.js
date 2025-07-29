@@ -12,4 +12,7 @@ export default defineConfig({
       additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
     }),
   ],
+  define: {
+    VITE_API_KEY: import.meta.env.API_KEY
+  }
 });
