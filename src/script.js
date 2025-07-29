@@ -22,6 +22,7 @@ window.onload = function() {
 async function getCityData(){
   try{
     // HTTP通信(API通信)でサーバーからデータを取得
+    console.log("test",apiKey)
     const response = await axios.get(`https://api.openweathermap.org/geo/1.0/direct?q=${citySearchInput.value}&limit=2&appid=${apiKey}`);
     const item = response.data[0]
 
