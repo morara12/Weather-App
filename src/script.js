@@ -7,7 +7,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 function $(selector){return document.querySelector(selector)};
 
 const getHtmlAndDisplay = (selector, argument) =>  {
-  $(`${selector}`).textContent= argument;
+  $(selector).textContent= argument;
 }
 
 // 都市名を検索するボタンをクリックしたときにgetCity関数を実行
@@ -64,11 +64,11 @@ const displayWeatherForecast = (icon, local_names, temp_max, temp_min, humidity,
 
   // Math.round…整数になるまで四捨五入
   const weatherObject =[
-    {classname:`weather-display__city-name`, argument:local_names},
-    {classname:`temp-max`, argument:`${Math.round(temp_max)}℃`},
-    {classname:`temp-min`, argument:`${Math.round(temp_min)}℃`},
-    {classname:`level-of-humidity`, argument:`${humidity}%`} ,
-    {classname:`wind-speed`, argument:`${wind}m/s`}
+    {classname:`.weather-display__city-name`, argument:local_names},
+    {classname:`.temp-max`, argument:`${Math.round(temp_max)}℃`},
+    {classname:`.temp-min`, argument:`${Math.round(temp_min)}℃`},
+    {classname:`.level-of-humidity`, argument:`${humidity}%`} ,
+    {classname:`.wind-speed`, argument:`${wind}m/s`}
   ]
 
   weatherObject.forEach(e => {
@@ -143,7 +143,7 @@ const display5DaysWeather = (cssName,timeArray)　=>　{
     ]
 
     temp.forEach(e=> {
-      getHtmlAndDisplay(`${cssName}-temp${i}-temp-${e.classname}`,`${Math.round(e.tempData)}`);
+      getHtmlAndDisplay(`.${cssName}-temp${i}-temp-${e.classname}`,`${Math.round(e.tempData)}`);
     })
   }
 } 
@@ -161,7 +161,7 @@ const getDateAndDay= ()=> {
     // 曜日が日～土で0～6で番号が降られているので変換し、取得
     const weekday=targetDate.format("dd"); 
 
-    const TablePosition =[`right-day${i}`,`left-day${i}`]
+    const TablePosition =[`.right-day${i}`,`.left-day${i}`]
 
     TablePosition.forEach(e => {
       getHtmlAndDisplay(e,`${date} (${weekday})`);
