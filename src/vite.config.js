@@ -11,8 +11,5 @@ export default defineConfig({
       targets: ['ie >= 11'],
       additionalLegacyPolyfills: ['regenerator-runtime/runtime'],
     }),
-  ],
-  define: {
-    API_KEY: import.meta.env.VITE_API_KEY
-  }
+  ]
 });
